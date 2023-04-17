@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Chat with ChatGPT</title>
+</head>
+<body>
+  <h1>Chat with ChatGPT</h1>
+  <label for="input">Input Message:</label>
+  <input type="text" id="input">
+  <button onclick="sendMessage()">Send</button>
+  <p id="output"></p>
+  <script>
+    function sendMessage() {
+      const input = document.getElementById("input").value;
+      fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer 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' // ここにAPIキーを入力してください
+        },
+        body: JSON.stringify({
+          prompt: input,
+          max_tokens: 60,
+          temperature: 0.7
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        const output = data.choices[0].text;
+        document.getElementById("output").innerHTML = output;
+      })
+      .catch(error => console.error(error));
+    }
+  </script>
+</body>
+</html>
